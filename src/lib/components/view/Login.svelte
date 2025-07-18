@@ -40,7 +40,8 @@
 
 	$effect(() => {
 		if (authState.loggedin) {
-			throw navigate("/app/");
+			navigate("/app/");
+			return
 		}
 	});
 </script>

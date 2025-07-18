@@ -10,10 +10,12 @@
 
 	$effect(() => {
 		if (!authState.loading && !authState.loggedin) {
-			throw navigate("/auth/login");
+			navigate("/auth/login");
+			return
 		}
 		if (route.meta.admin && authState.user?.role !== 'admin') {
-			throw navigate("/app/");
+			navigate("/app/");
+			return
 		}
 	});
 </script>
