@@ -25,7 +25,7 @@ class AuthState {
 		localStorage.removeItem("auth");
 		this.loggedin = false;
 		this.user = undefined;
-		throw navigate("/auth/login");
+		navigate("/auth/login");
 	}
 
 	constructor() {

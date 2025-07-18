@@ -71,7 +71,7 @@
 							class="flex items-center justify-between w-full p-3 py-4"
 							isActive={isActive(path)}
 							onclick={() => {
-								throw navigate(path);
+								navigate(path);
 							}}
 						>
 							<div class="flex items-center gap-2">
