@@ -66,6 +66,7 @@
 						{
 							sheetName: "APPROVAL",
 							timestamp: new Date().toISOString(),
+							approvalNo: `APG-${(sheetState.approvalSheet.length + 1).toString().padStart(4, "0")}`,
 							subscriptionNo: dialogState.selectedRow.subscriptionNo,
 							approvedBy: authState.user?.name,
 							approvalStatus: values.approval,
@@ -120,7 +121,7 @@
 			</div>
 			<div class="grid gap-1">
 				<p class="text-sm text-muted-foreground font-semibold">Frequency</p>
-				<p>{dialogState.selectedRow.frequence}</p>
+				<p>{dialogState.selectedRow.frequency}</p>
 			</div>
 			<div class="grid gap-1">
 				<p class="text-sm text-muted-foreground font-semibold">Requstend On</p>

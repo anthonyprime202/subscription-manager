@@ -30,6 +30,7 @@ export const renewalHeaders = [
 
 export const approvalHeaders = [
 	"timestamp",
+	"approvalNo",
 	"subscriptionNo",
 	"approvedBy",
 	"approvalStatus",
