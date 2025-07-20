@@ -66,7 +66,7 @@
 		</Tabs.List>
 	</div>
 
-	<div class="md:p-5 md-pt-0">
+	<div class="md:p-5 md:pt-0">
 		<div class="bg-background p-5 rounded-md shadow-md">
 			<Tabs.Content value="pending">
 				<DialogRoot bind:open>
