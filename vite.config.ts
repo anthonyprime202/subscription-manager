@@ -6,8 +6,8 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [tailwindcss(), svelte()],
-	server: {
-		port: 2020
+	server: { port: 5173, host: true,
+
 	},
 	resolve: {
 		alias: {
