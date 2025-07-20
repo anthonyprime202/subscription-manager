@@ -11,6 +11,7 @@ export const subscriptionHeaders = [
 	"actual1",
 	"timeDelay1",
 	"renewalStatus",
+	"renewalCount",
 	"planned2",
 	"actual2",
 	"timeDelay2",
@@ -24,6 +25,7 @@ export const subscriptionHeaders = [
 
 export const renewalHeaders = [
 	"timestamp",
+	"renewalNo",
 	"subscriptionNo",
 	"approvedBy",
 	"renewalStatus",
@@ -35,6 +37,7 @@ export const approvalHeaders = [
 	"subscriptionNo",
 	"approvedBy",
 	"approvalStatus",
+	"requestedOn",
 	"note",
 ] as const;
 

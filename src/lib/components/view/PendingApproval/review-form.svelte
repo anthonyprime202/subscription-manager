@@ -46,10 +46,10 @@
 	>({
 		extra: [validator({ schema })],
 		onSubmit: async (values) => {
+			try {
 			const currentRow = sheetState.subscriptionSheet.find(
 				(s) => s.subscriptionNo === dialogState.selectedRow.subscriptionNo,
 			)!;
-			try {
 				await postSheet({
 					action: "update",
 					rows: [
@@ -71,6 +71,7 @@
 							subscriptionNo: dialogState.selectedRow.subscriptionNo,
 							approvedBy: authState.user?.name,
 							approvalStatus: values.approval,
+							requestedOn: dialogState.selectedRow.requestedOn.toISOString(),
 							note: values.note,
 						},
 					],

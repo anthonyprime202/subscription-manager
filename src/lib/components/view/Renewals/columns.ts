@@ -1,31 +1,33 @@
+import { renderSnippet, renderComponent } from "$lib/components/ui/data-table";
 import SortingButton from "$lib/components/element/SortingButton.svelte";
-import { renderComponent, renderSnippet } from "$lib/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/table-core";
-import PaymentButton from "./action-button.svelte";
 import { createRawSnippet } from "svelte";
+import ActionButton from "./action-button.svelte";
+import { Pill } from "$lib/components/ui/pill";
 
-export type PendingPaymentsData = {
+export type PendingRenewalData = {
 	subscriptionNo: string;
-	company: string;
-	subscriptionName: string;
+	companyName: string;
 	subscriberName: string;
-	price: string;
+	subscriptionName: string;
 	frequency: string;
-	approvedOn: Date;
+	price: string;
+	endDate: Date;
 };
 
-export type paymentHistoryData = {
-	paymentDate: Date;
+export type RenewalHistoryData = {
+	renewalNo: string;
 	subscriptionNo: string;
-	subscriber: string;
-	company: string;
-	paymentMode: string;
-	transactionId: string;
-	insuranceDocument: string;
-	startDate: Date;
+	companyName: string;
+	subscriberName: string;
+	subscriptionName: string;
+	frequency: string;
+	price: string;
+	renewalStatus: string;
+	renewalDate: Date;
 };
 
-export const pendingPaymentsColumns: ColumnDef<PendingPaymentsData>[] = [
+export const pendingRenewalColumns: ColumnDef<PendingRenewalData>[] = [
 	{
 		id: "action",
 		header: () =>
@@ -36,14 +38,14 @@ export const pendingPaymentsColumns: ColumnDef<PendingPaymentsData>[] = [
 			),
 		enableGlobalFilter: false,
 		cell: ({ row }) =>
-			renderComponent(PaymentButton, { currentRow: row.original }),
+			renderComponent(ActionButton, { currentRow: row.original }),
 	},
 	{
 		accessorKey: "subscriptionNo",
 		header: "Subscription No",
 	},
 	{
-		accessorKey: "company",
+		accessorKey: "compnyName",
 		header: "Company",
 	},
 	{
@@ -59,6 +61,10 @@ export const pendingPaymentsColumns: ColumnDef<PendingPaymentsData>[] = [
 			}));
 			return renderSnippet(cellSnippet, row.getValue("subscriptionName"));
 		},
+	},
+	{
+		accessorKey: "frequency",
+		header: "Frequency",
 	},
 	{
 		accessorKey: "price",
@@ -85,14 +91,11 @@ export const pendingPaymentsColumns: ColumnDef<PendingPaymentsData>[] = [
 		},
 	},
 	{
-		accessorKey: "frequency",
-		header: "Frequency",
-	},
-	{
-		accessorKey: "approvedOn",
+		accessorKey: "endDate",
+		enableGlobalFilter: false,
 		header: ({ column }) =>
 			renderComponent(SortingButton, {
-				header: "Approved On",
+				header: "End Date",
 				onclick: column.getToggleSortingHandler(),
 			}),
 		cell: ({ row }) => {
@@ -105,18 +108,19 @@ export const pendingPaymentsColumns: ColumnDef<PendingPaymentsData>[] = [
 			}));
 			return renderSnippet(
 				cellSnippet,
-				formatter.format(row.getValue("approvedOn")),
+				formatter.format(row.getValue("endDate")),
 			);
 		},
 	},
 ];
 
-export const paymentHistoryColumns: ColumnDef<paymentHistoryData>[] = [
+export const renewalHistoryColumns: ColumnDef<RenewalHistoryData>[] = [
 	{
-		accessorKey: "paymentDate",
+		accessorKey: "renewalDate",
+		enableGlobalFilter: false,
 		header: ({ column }) =>
 			renderComponent(SortingButton, {
-				header: "Payment Date",
+				header: "Renewal Date",
 				onclick: column.getToggleSortingHandler(),
 			}),
 		cell: ({ row }) => {
@@ -129,64 +133,84 @@ export const paymentHistoryColumns: ColumnDef<paymentHistoryData>[] = [
 			}));
 			return renderSnippet(
 				cellSnippet,
-				formatter.format(row.getValue("paymentDate")),
+				formatter.format(row.getValue("renewalDate")),
 			);
 		},
+	},
+	{
+		accessorKey: "renewalNo",
+		header: "Renewal No",
 	},
 	{
 		accessorKey: "subscriptionNo",
 		header: "Subscription No",
 	},
 	{
-		accessorKey: "subscriber",
-		header: "Subscriber",
-	},
-	{
-		accessorKey: "company",
+		accessorKey: "compnyName",
 		header: "Company",
 	},
 	{
-		accessorKey: "paymentMode",
-		header: "Payment Mode",
+		accessorKey: "subscriberName",
+		header: "Subscriber",
 	},
 	{
-		accessorKey: "transactionId",
-		header: "Transaction ID",
-	},
-	{
-		accessorKey: "insuranceDocument",
-		header: "Insurance Document",
+		accessorKey: "subscriptionName",
+		header: "Subscription",
 		cell: ({ row }) => {
-			const cellSnippet = createRawSnippet((getUrl: () => string) => ({
-				render: () => {
-					if (!getUrl()) {
-						return `<span class="text-muted-foreground">N/A</span>`;
-					}
-					return `<a class="font-semibold text-accent-foreground underline" href="${getUrl()}">File</a>`;
-				},
+			const cellSnippet = createRawSnippet((getName: () => string) => ({
+				render: () => `<div class="text-primary font-bold">${getName()}</div>`,
 			}));
-
-			return renderSnippet(cellSnippet, row.getValue("insuranceDocument"));
+			return renderSnippet(cellSnippet, row.getValue("subscriptionName"));
 		},
 	},
 	{
-		accessorKey: "startDate",
+		accessorKey: "frequency",
+		header: "Frequency",
+	},
+		{
+		accessorKey: "renewalStatus",
+		header: () => {
+			const headerSnippet = createRawSnippet(() => ({
+				render: () => `<div class="text-center">Status</div>`,
+			}));
+
+			return renderSnippet(headerSnippet, "");
+		},
+		cell: ({ row }) => {
+			const textSnippet = createRawSnippet(() => ({
+				render: () => `<div>${row.original.renewalStatus}</div>`,
+			}));
+
+			return renderComponent(Pill, {
+				children: textSnippet,
+				variant:
+					row.original.renewalStatus === "Renewed"
+						? "success"
+						: "destructive",
+			});
+		},
+	},
+	{
+		accessorKey: "price",
 		header: ({ column }) =>
 			renderComponent(SortingButton, {
-				header: "Start Date",
+				header: "Price",
 				onclick: column.getToggleSortingHandler(),
+				justify: "end",
 			}),
 		cell: ({ row }) => {
-			const formatter = Intl.DateTimeFormat("en-IN", {
-				dateStyle: "medium",
+			const formatter = Intl.NumberFormat("en-IN", {
+				style: "currency",
+				currency: "INR",
 			});
 
-			const cellSnippet = createRawSnippet((getDate: () => string) => ({
-				render: () => `<p>${getDate()}</p>`,
+			const cellSnippet = createRawSnippet((getAmount: () => string) => ({
+				render: () => `<div class="text-right font-bold">${getAmount()}</div>`,
 			}));
+
 			return renderSnippet(
 				cellSnippet,
-				formatter.format(row.getValue("startDate")),
+				formatter.format(parseFloat(row.getValue("price"))),
 			);
 		},
 	},

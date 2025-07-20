@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/table-core";
 import { createRawSnippet } from "svelte";
 import ReviewButton from "./action-button.svelte";
 import SortingButton from "$lib/components/element/SortingButton.svelte";
-import Pill from "$lib/components/ui/pill/pill.svelte";
+import { Pill } from "$lib/components/ui/pill";
 
 export type PendingApprovalData = {
 	subscriptionNo: string;

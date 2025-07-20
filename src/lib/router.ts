@@ -4,10 +4,11 @@ import Login from "$lib/components/view/Login.svelte";
 import SidebarLayout from "$lib/components/element/SidebarLayout.svelte";
 import NotFound from "$lib/components/element/NotFound.svelte";
 import Loading from "$lib/components/element/Loading.svelte";
-import { CreditCard, Home, MonitorCheck, TicketPlus } from "@lucide/svelte";
+import { CreditCard, Home, MonitorCheck, RotateCcw, TicketPlus } from "@lucide/svelte";
 import NewSubscription from "$lib/components/view/NewSubscription.svelte";
 import PendingApproval from "$lib/components/view/PendingApproval/page.svelte";
 import Payments from "$lib/components/view/Payments/page.svelte";
+import Renewals from "$lib/components/view/Renewals/page.svelte";
 import type { SubscriptionRow } from "./types/sheets";
 
 export const routes = {
@@ -28,6 +29,17 @@ export const routes = {
 				subtext: "Fill in the details to request a new subscription",
 				icon: TicketPlus,
 				admin: false,
+			},
+		},
+		"/renewals": {
+			"/": Renewals,
+			meta: {
+				title: "Renewals",
+				subtext: "Renew subscriptions that have passed end date",
+				icon: RotateCcw,
+				admin: true,
+				notifications: (sheets: SubscriptionRow[]) =>
+					sheets.filter((s) => s.endDate !== "" && new Date(s.endDate) < new Date() && s.actual1 === "").length,
 			},
 		},
 		"/pending-approvals": {

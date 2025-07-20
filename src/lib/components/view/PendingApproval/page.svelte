@@ -41,7 +41,7 @@
 				subscriptionName: sheet.subscriptionName,
 				price: sheet.price,
 				frequency: sheet.frequency,
-				requestedOn: new Date(sheet.timestamp),
+				requestedOn: sheet.actual1 === "" ? new Date(sheet.timestamp) : new Date(sheet.actual1),
 				purpose: sheet.purpose,
 			})) satisfies PendingApprovalData[],
 	);
@@ -61,7 +61,7 @@
 				frequency: subscription.frequency,
 				price: subscription.price,
 				purpose: subscription.purpose,
-				requestedOn: new Date(subscription.timestamp),
+				requestedOn: new Date(s.requestedOn),
 				reviewedOn: new Date(s.timestamp),
 			};
 		}) satisfies ApprovalHistoryData[],

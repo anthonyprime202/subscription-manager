@@ -63,6 +63,7 @@
 							{
 								...currentRow,
 								actual3: new Date().toISOString(),
+								actual1: "",
 								startDate: new Date(values.startDate).toDateString(),
 								endDate: new Date(values.endDate).toISOString(),
 							},

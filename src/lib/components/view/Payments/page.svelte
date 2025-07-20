@@ -52,7 +52,8 @@
 					startDate: new Date(s.startDate),
 					subscriber: currentSheet.subscriberName,
 					subscriptionNo: s.subscriptionNo,
-					transactionId: s.transactionId
+					transactionId: s.transactionId,
+					paymentDate: new Date(s.timestamp),
 				}
 			}) satisfies paymentHistoryData[]
 	)
