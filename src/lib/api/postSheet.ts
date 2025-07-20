@@ -32,10 +32,10 @@ interface PostParams {
 export default async function ({ rows, action = "insert" }: PostParams) {
 	const formData = new FormData();
 	const rowsData = rows.map((row) => {
-		const values: string[] = headers[row.sheetName!].map((h) => {
+		const values: Partial<string | null>[] = headers[row.sheetName!].map((h) => {
 			const val = (row[h as keyof typeof row] as string) ?? "";
 			if (h.startsWith("timeDelay") || h.startsWith("planned")) {
-				return "";
+				return null;
 			}
 			return val;
 		});

@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { type ApprovalHistoryData, type PendingApprovalData, approvalHistoryColumns, pendingApprovalColumns } from "./columns";
+	import {
+		type ApprovalHistoryData,
+		type PendingApprovalData,
+		approvalHistoryColumns,
+		pendingApprovalColumns,
+	} from "./columns";
 	import DataTable from "$lib/components/element/DataTable.svelte";
 	import { useSheets } from "$lib/state/sheets.svelte";
 	import { Root as DialogRoot } from "$lib/components/ui/dialog";
@@ -42,8 +47,10 @@
 	);
 
 	let historyData = $derived(
-		sheetState.approvalSheet.map(s => {
-			const subscription = sheetState.subscriptionSheet.find(sh => s.subscriptionNo === sh.subscriptionNo)!
+		sheetState.approvalSheet.map((s) => {
+			const subscription = sheetState.subscriptionSheet.find(
+				(sh) => s.subscriptionNo === sh.subscriptionNo,
+			)!;
 			return {
 				approvalNo: s.approvalNo,
 				subscriptionNo: s.subscriptionNo,
@@ -55,23 +62,21 @@
 				price: subscription.price,
 				purpose: subscription.purpose,
 				requestedOn: new Date(subscription.timestamp),
-				reviewedOn: new Date(s.timestamp)
-			}
+				reviewedOn: new Date(s.timestamp),
+			};
 		}) satisfies ApprovalHistoryData[],
-	)
-
+	);
 </script>
 
-		<Tabs.Root value="pending">
-			<div class="px-5">
-			<Tabs.List class="w-full">
-				<Tabs.Trigger value="pending">Pending</Tabs.Trigger>
-				<Tabs.Trigger value="history">History</Tabs.Trigger>
-			</Tabs.List>
-
-			</div>
-<div class="md:p-5 md:pt-0">
-	<div class="bg-background p-5 rounded-md shadow-md">
+<Tabs.Root value="pending">
+	<div class="px-5">
+		<Tabs.List class="w-full">
+			<Tabs.Trigger value="pending">Pending</Tabs.Trigger>
+			<Tabs.Trigger value="history">History</Tabs.Trigger>
+		</Tabs.List>
+	</div>
+	<div class="md:p-5 md:pt-0">
+		<div class="bg-background p-5 rounded-md shadow-md">
 			<Tabs.Content value="pending">
 				<DialogRoot bind:open>
 					<DataTable
@@ -83,16 +88,12 @@
 				</DialogRoot>
 			</Tabs.Content>
 			<Tabs.Content value="history">
-				<DialogRoot bind:open>
-					<DataTable
-						data={historyData}
-						columns={approvalHistoryColumns}
-						loading={sheetState.approvalLoading}
-					/>
-					<ReviewForm />
-				</DialogRoot>
-
+				<DataTable
+					data={historyData}
+					columns={approvalHistoryColumns}
+					loading={sheetState.approvalLoading}
+				/>
 			</Tabs.Content>
+		</div>
 	</div>
-</div>
-		</Tabs.Root>
+</Tabs.Root>

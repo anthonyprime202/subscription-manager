@@ -57,6 +57,7 @@
 							...currentRow,
 							actual2: new Date().toISOString(),
 							approvalStatus: values.approval,
+							actual3: "",
 						},
 					],
 				});
@@ -88,8 +89,9 @@
 		},
 	});
 </script>
-	<Dialog.Content class="overflow-auto" onclose={() => reset()}>
-		<form use:form class="grid gap-4">
+
+<Dialog.Content class="overflow-y-auto" onclose={() => reset()}>
+	<form use:form class="grid gap-4">
 		<Dialog.Header>
 			<Dialog.Title>Review Subscription Request</Dialog.Title>
 			<Dialog.Description
@@ -168,12 +170,17 @@
 			<Label for="note">Note (Optional)</Label>
 			<Tooltip.Root disabled={!$errors.note}>
 				<Tooltip.Trigger>
-					<Textarea name="note" id="note" bind:value={$data.note} placeholder="Enter a note" />
+					<Textarea
+						name="note"
+						id="note"
+						bind:value={$data.note}
+						placeholder="Enter a note"
+					/>
 				</Tooltip.Trigger>
 			</Tooltip.Root>
 		</div>
 		<Dialog.Footer>
-			<Button class="w-full" type="submit" onclick={() => console.log($data)} disabled={$isSubmitting}>
+			<Button class="w-full" type="submit" disabled={$isSubmitting}>
 				{#if $isSubmitting}
 					<Spinner /> Submitting
 				{:else}
@@ -181,5 +188,5 @@
 				{/if}
 			</Button>
 		</Dialog.Footer>
-</form>
-	</Dialog.Content>
+	</form>
+</Dialog.Content>

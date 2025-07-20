@@ -20,10 +20,10 @@
 			const view = true;
 			if (r[1]?.meta?.admin) {
 				if (authState.user?.role !== "admin") {
-					return false
+					return false;
 				}
 			}
-			return r[0] !== "layout" && view
+			return r[0] !== "layout" && view;
 		})
 		.map(([p, r]) => {
 			const { meta } = r as {
@@ -36,7 +36,6 @@
 				...meta,
 			} as { path: "/app/" } & RouteMeta;
 		});
-
 </script>
 
 <Sidebar.Provider>
@@ -75,14 +74,13 @@
 							}}
 						>
 							<div class="flex items-center gap-2">
-
 								<Icon size={24} />
 								{title}
 							</div>
 							{#if notifs}
-							<span class="text-secondary-foreground font-bold">
-								{notifs}							
-							</span>
+								<span class="text-secondary-foreground font-bold">
+									{notifs}
+								</span>
 							{/if}
 						</Sidebar.MenuButton>
 					</Sidebar.MenuItem>

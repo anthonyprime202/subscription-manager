@@ -28,14 +28,17 @@ export type ApprovalHistoryData = {
 	approvalStatus: string;
 	requestedOn: Date;
 	reviewedOn: Date;
-}
+};
 
 export const pendingApprovalColumns: ColumnDef<PendingApprovalData>[] = [
 	{
 		id: "action",
-		header: () => renderSnippet(createRawSnippet(() => ({
-			render: () => `<div class="text-center">Action</div>`
-		}))),
+		header: () =>
+			renderSnippet(
+				createRawSnippet(() => ({
+					render: () => `<div class="text-center">Action</div>`,
+				})),
+			),
 		enableGlobalFilter: false,
 		cell: ({ row }) =>
 			renderComponent(ReviewButton, { currentRow: row.original }),
@@ -69,7 +72,7 @@ export const pendingApprovalColumns: ColumnDef<PendingApprovalData>[] = [
 			renderComponent(SortingButton, {
 				header: "Price",
 				onclick: column.getToggleSortingHandler(),
-				justify: "end"
+				justify: "end",
 			}),
 		cell: ({ row }) => {
 			const formatter = Intl.NumberFormat("en-IN", {
@@ -94,10 +97,11 @@ export const pendingApprovalColumns: ColumnDef<PendingApprovalData>[] = [
 	{
 		accessorKey: "requestedOn",
 		enableGlobalFilter: false,
-		header: ({ column }) => renderComponent(SortingButton, {
-			header: "Requested On",
-			onclick: column.getToggleSortingHandler(),
-		}),
+		header: ({ column }) =>
+			renderComponent(SortingButton, {
+				header: "Requested On",
+				onclick: column.getToggleSortingHandler(),
+			}),
 		cell: ({ row }) => {
 			const formatter = Intl.DateTimeFormat("en-IN", {
 				dateStyle: "medium",
@@ -175,48 +179,53 @@ export const approvalHistoryColumns: ColumnDef<ApprovalHistoryData>[] = [
 		accessorKey: "purpose",
 		header: () => {
 			const headerSnippet = createRawSnippet(() => ({
-				render: () => `<div class="text-center">Purpose</div>`
-			}))
+				render: () => `<div class="text-center">Purpose</div>`,
+			}));
 
-			return renderSnippet(headerSnippet, "")
+			return renderSnippet(headerSnippet, "");
 		},
 		cell: ({ row }) => {
 			const cellSnippet = createRawSnippet((getPurpose: () => string) => ({
-				render: () => `<div class="flex justify-center"><div class="text-wrap text-center max-w-50 w-full bg-muted text-muted-foreground rounded-sm">${getPurpose()}</div></div>`
-			}))
+				render: () =>
+					`<div class="flex justify-center"><div class="text-wrap text-center max-w-50 w-full bg-muted text-muted-foreground rounded-sm">${getPurpose()}</div></div>`,
+			}));
 
-			return renderSnippet(cellSnippet, row.getValue("purpose"))
-		}
+			return renderSnippet(cellSnippet, row.getValue("purpose"));
+		},
 	},
 
 	{
 		accessorKey: "approvalStatus",
 		header: () => {
 			const headerSnippet = createRawSnippet(() => ({
-				render: () => `<div class="text-center">Status</div>`
-			}))
+				render: () => `<div class="text-center">Status</div>`,
+			}));
 
-			return renderSnippet(headerSnippet, "")
+			return renderSnippet(headerSnippet, "");
 		},
 		cell: ({ row }) => {
 			const textSnippet = createRawSnippet(() => ({
-				render: () => `<div>${row.original.approvalStatus}</div>`
-			}))
+				render: () => `<div>${row.original.approvalStatus}</div>`,
+			}));
 
 			return renderComponent(Pill, {
 				children: textSnippet,
-				variant: row.original.approvalStatus === "Approved" ? "success" : 'destructive'
-			})
-		}
+				variant:
+					row.original.approvalStatus === "Approved"
+						? "success"
+						: "destructive",
+			});
+		},
 	},
 
 	{
 		accessorKey: "requestedOn",
 		enableGlobalFilter: false,
-		header: ({ column }) => renderComponent(SortingButton, {
-			header: "Requested On",
-			onclick: column.getToggleSortingHandler(),
-		}),
+		header: ({ column }) =>
+			renderComponent(SortingButton, {
+				header: "Requested On",
+				onclick: column.getToggleSortingHandler(),
+			}),
 		cell: ({ row }) => {
 			const formatter = Intl.DateTimeFormat("en-IN", {
 				dateStyle: "medium",
@@ -231,13 +240,14 @@ export const approvalHistoryColumns: ColumnDef<ApprovalHistoryData>[] = [
 			);
 		},
 	},
-{
+	{
 		accessorKey: "reviewedOn",
 		enableGlobalFilter: false,
-		header: ({ column }) => renderComponent(SortingButton, {
-			header: "Reviewed On",
-			onclick: column.getToggleSortingHandler(),
-		}),
+		header: ({ column }) =>
+			renderComponent(SortingButton, {
+				header: "Reviewed On",
+				onclick: column.getToggleSortingHandler(),
+			}),
 		cell: ({ row }) => {
 			const formatter = Intl.DateTimeFormat("en-IN", {
 				dateStyle: "medium",
@@ -251,6 +261,5 @@ export const approvalHistoryColumns: ColumnDef<ApprovalHistoryData>[] = [
 				formatter.format(row.getValue("reviewedOn")),
 			);
 		},
-	}
-
-]
+	},
+];

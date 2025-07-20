@@ -9,10 +9,14 @@
 	let authState = setAuth();
 
 	$effect(() => {
-		if (!(authState.loading) && !(authState.loggedin)) {
+		if (!authState.loading && !authState.loggedin) {
 			navigate("/auth/login");
 		}
-		if (route.meta.admin && authState.user && authState.user?.role !== 'admin') {
+		if (
+			route.meta.admin &&
+			authState.user &&
+			authState.user?.role !== "admin"
+		) {
 			navigate("/app/");
 		}
 	});

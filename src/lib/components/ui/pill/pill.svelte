@@ -14,30 +14,35 @@
 				default: "bg-foreground/10 text-foreground border-foreground",
 			},
 		},
-    defaultVariants: {
-      variant: "default"
-    }
+		defaultVariants: {
+			variant: "default",
+		},
 	});
 
-  export type PillVariant = VariantProps<typeof pillVariants>["variant"];
+	export type PillVariant = VariantProps<typeof pillVariants>["variant"];
 
-  export type PillProps = WithElementRef<HTMLAttributes<HTMLDivElement  >> & {
-    variant?: PillVariant
-  };
+	export type PillProps = WithElementRef<HTMLAttributes<HTMLDivElement>> & {
+		variant?: PillVariant;
+	};
 </script>
+
 <script lang="ts">
-  let {
-    class: className,
-    variant = "default",
-    ref = $bindable(null),
-    children,
-    ...restProps
-  }:PillProps = $props();
+	let {
+		class: className,
+		variant = "default",
+		ref = $bindable(null),
+		children,
+		...restProps
+	}: PillProps = $props();
 </script>
 
 <div
-  bind:this={ref}
-  class={cn("text-xs rounded-full px-2 py-1 border text-center", pillVariants({ variant }), className)}
+	bind:this={ref}
+	class={cn(
+		"text-xs rounded-full px-2 py-1 border text-center",
+		pillVariants({ variant }),
+		className,
+	)}
 >
-  {@render children?.()}
+	{@render children?.()}
 </div>

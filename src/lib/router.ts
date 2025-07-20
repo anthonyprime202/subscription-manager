@@ -37,7 +37,8 @@ export const routes = {
 				subtext: "Subscriptions requests pending for approval",
 				icon: MonitorCheck,
 				admin: true,
-				notifications: (sheets: SubscriptionRow[]) => sheets.filter(s => s.actual2 === "" && s.planned2 !== "").length
+				notifications: (sheets: SubscriptionRow[]) =>
+					sheets.filter((s) => s.actual2 === "" && s.planned2 !== "").length,
 			},
 		},
 		"/payments": {
@@ -47,7 +48,8 @@ export const routes = {
 				subtext: "Manage and process payments for approved subscriptions",
 				icon: CreditCard,
 				admin: false,
-				notifications: (sheets: SubscriptionRow[]) => sheets.filter(s => s.actual3 === "" && s.planned3 !== "").length
+				notifications: (sheets: SubscriptionRow[]) =>
+					sheets.filter((s) => s.actual3 === "" && s.planned3 !== "").length,
 			},
 		},
 

@@ -33,6 +33,8 @@
 			"selection:bg-primary dark:bg-input/30 selection:text-primary-foreground border-input ring-offset-background placeholder:text-muted-foreground shadow-xs flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 pt-1.5 text-sm font-medium outline-none transition-[color,box-shadow] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
 			"focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
 			"aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+			"file:text-primary border-input file:border-0 file:bg-primary/10 file:text-sm file:font-bold file:rounded-md file:px-5 file:py-2 file:mr-4",
+			"p-0 border-dashed justify-center",
 			className,
 		)}
 		type="file"

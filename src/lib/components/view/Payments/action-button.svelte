@@ -1,11 +1,9 @@
 <script lang="ts">
 	import Button from "$lib/components/ui/button/button.svelte";
 	import { getContext } from "svelte";
-	import type { ApprovalHistoryData, PendingApprovalData } from "./columns";
+	import type { PendingPaymentsData } from "./columns";
 
-	let {
-		currentRow,
-	}: { currentRow: PendingApprovalData | ApprovalHistoryData } = $props();
+	let { currentRow }: { currentRow: PendingPaymentsData } = $props();
 	const dialogState: any = getContext(Symbol.for("dialog-state"));
 </script>
 
@@ -14,6 +12,6 @@
 		onclick={() => {
 			dialogState.open = true;
 			dialogState.selectedRow = currentRow;
-		}}>Review</Button
+		}}>Process</Button
 	>
 </div>

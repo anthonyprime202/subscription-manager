@@ -18,6 +18,7 @@ export const subscriptionHeaders = [
 	"planned3",
 	"actual3",
 	"timeDelay3",
+	"startDate",
 	"endDate",
 ] as const;
 

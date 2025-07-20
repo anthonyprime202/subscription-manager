@@ -73,7 +73,10 @@ export default async function (): Promise<FetchData> {
 			values.subscriptionSheet,
 		) as SubscriptionRow[],
 		renewalSheet: parseSheet("RENEWAL", values.renewalSheet) as RenewalRow[],
-		approvalSheet: parseSheet( "APPROVAL", values.approvalSheet) as ApprovalRow[],
+		approvalSheet: parseSheet(
+			"APPROVAL",
+			values.approvalSheet,
+		) as ApprovalRow[],
 		paymentSheet: parseSheet("PAYMENT", values.paymentSheet) as PaymentRow[],
 		userSheet: parseSheet("USER", values.userSheet) as UserRow[],
 		masterSheet: parseSheet("MASTER", values.masterSheet) as Master,

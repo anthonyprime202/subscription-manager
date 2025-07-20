@@ -103,7 +103,7 @@
 				</Table.Header>
 				<Table.Body>
 					{#if loading}
-						{#each Array.from({ length: 100 }) as _}
+						{#each Array.from({ length: 15 }) as _}
 							<Table.Row>
 								{#each columns as _}
 									<Table.Cell>
@@ -126,8 +126,13 @@
 							</Table.Row>
 						{:else}
 							<Table.Row class="hover:bg-transparent">
-								<Table.Cell colspan={columns.length} class="h-[71dvh] text-center text-xl">
-									<div class="flex flex-col items-center justify-center w-full gap-1 font-semibold">
+								<Table.Cell
+									colspan={columns.length}
+									class="h-[71dvh] text-center text-xl"
+								>
+									<div
+										class="flex flex-col items-center justify-center w-full gap-1 font-semibold"
+									>
 										<Clipboard size={42} />
 										No Data Available
 									</div>
