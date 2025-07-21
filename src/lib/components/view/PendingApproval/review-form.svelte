@@ -46,43 +46,39 @@
 	>({
 		extra: [validator({ schema })],
 		onSubmit: async (values) => {
-			try {
 			const currentRow = sheetState.subscriptionSheet.find(
 				(s) => s.subscriptionNo === dialogState.selectedRow.subscriptionNo,
 			)!;
-				await postSheet({
-					action: "update",
-					rows: [
-						{
-							...currentRow,
-							actual2: new Date().toISOString(),
-							approvalStatus: values.approval,
-							actual3: "",
-						},
-					],
-				});
-				await postSheet({
-					action: "insert",
-					rows: [
-						{
-							sheetName: "APPROVAL",
-							timestamp: new Date().toISOString(),
-							approvalNo: `APG-${(sheetState.approvalSheet.length + 1).toString().padStart(4, "0")}`,
-							subscriptionNo: dialogState.selectedRow.subscriptionNo,
-							approvedBy: authState.user?.name,
-							approvalStatus: values.approval,
-							requestedOn: dialogState.selectedRow.requestedOn.toISOString(),
-							note: values.note,
-						},
-					],
-				});
-				dialogState.open = false;
-				sheetState.updateSubscription();
-				sheetState.updateApproval();
-				toast.success("Successfully updated status");
-			} catch (e) {
-				throw e;
-			}
+			await postSheet({
+				action: "update",
+				rows: [
+					{
+						...currentRow,
+						actual2: new Date().toISOString(),
+						approvalStatus: values.approval,
+						actual3: "",
+					},
+				],
+			});
+			await postSheet({
+				action: "insert",
+				rows: [
+					{
+						sheetName: "APPROVAL",
+						timestamp: new Date().toISOString(),
+						approvalNo: `APG-${(sheetState.approvalSheet.length + 1).toString().padStart(4, "0")}`,
+						subscriptionNo: dialogState.selectedRow.subscriptionNo,
+						approvedBy: authState.user?.name,
+						approvalStatus: values.approval,
+						requestedOn: dialogState.selectedRow.requestedOn.toISOString(),
+						note: values.note,
+					},
+				],
+			});
+			dialogState.open = false;
+			sheetState.updateSubscription();
+			sheetState.updateApproval();
+			toast.success("Successfully updated status");
 		},
 		onError: (e: any) => {
 			console.log(e);

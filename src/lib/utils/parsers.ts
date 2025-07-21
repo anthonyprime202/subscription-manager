@@ -16,6 +16,15 @@ export function toCamelCase(str: string) {
 		.join("");
 }
 
+export function getInitials(name: string) {
+  return name
+    .split(" ")
+    .filter(word => word.length > 0)
+    .map(word => word[0].toUpperCase())
+    .join("");
+}
+
+
 export function calculateEndDate(
 	startDateString: string,
 	frequency: "Annually" | "Semi-Annually" | "Quarterly" | "Monthly",

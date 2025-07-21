@@ -1,4 +1,4 @@
-import { fetchSheet } from "$lib/api";
+import { fetchSheet, postSheet } from "$lib/api";
 import { navigate } from "$lib/router";
 import { type UserRow as User } from "$lib/types/sheets";
 import { getContext, setContext } from "svelte";
@@ -14,6 +14,15 @@ class AuthState {
 			(u) => u.username === username && u.password === password,
 		);
 		if (this.user) {
+			await postSheet({
+				action: "update",
+				rows: [
+					{
+						...this.user,
+						lastLogin: new Date().toISOString(),
+					}
+				]
+			})
 			localStorage.setItem("auth", this.user.username);
 			this.loggedin = true;
 			return true;

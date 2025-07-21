@@ -74,7 +74,7 @@
 							}}
 						>
 							<div class="flex items-center gap-2">
-								<Icon size={24} />
+								<Icon size={20} />
 								{title}
 							</div>
 							{#if notifs}

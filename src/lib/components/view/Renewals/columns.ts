@@ -45,7 +45,7 @@ export const pendingRenewalColumns: ColumnDef<PendingRenewalData>[] = [
 		header: "Subscription No",
 	},
 	{
-		accessorKey: "compnyName",
+		accessorKey: "companyName",
 		header: "Company",
 	},
 	{
@@ -146,7 +146,7 @@ export const renewalHistoryColumns: ColumnDef<RenewalHistoryData>[] = [
 		header: "Subscription No",
 	},
 	{
-		accessorKey: "compnyName",
+		accessorKey: "companyName",
 		header: "Company",
 	},
 	{

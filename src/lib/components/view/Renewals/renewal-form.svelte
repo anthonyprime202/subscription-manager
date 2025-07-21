@@ -32,43 +32,41 @@
 	>({
 		extend: [validator({ schema })],
 		onSubmit: async (values) => {
-			try {
-				const currentRow = sheetState.subscriptionSheet.find(
-					(s) => s.subscriptionNo === dialogState.selectedRow.subscriptionNo,
-				)!;
-				await postSheet({
-					action: "update",
-					rows: [
-						{
-							...currentRow,
-							actual1: new Date().toISOString(),
-              actual2: "",
-							renewalCount: ((parseInt(currentRow.renewalCount) || 0) + 1).toString(),
-							renewalStatus: values.renew,
-						},
-					],
-				});
+			const currentRow = sheetState.subscriptionSheet.find(
+				(s) => s.subscriptionNo === dialogState.selectedRow.subscriptionNo,
+			)!;
+			await postSheet({
+				action: "update",
+				rows: [
+					{
+						...currentRow,
+						actual1: new Date().toISOString(),
+						actual2: "",
+						renewalCount: (
+							(parseInt(currentRow.renewalCount) || 0) + 1
+						).toString(),
+						renewalStatus: values.renew,
+					},
+				],
+			});
 
-				await postSheet({
-					action: "insert",
-					rows: [
-						{
-							sheetName: "RENEWAL",
-							renewalNo: `REN-${(sheetState.renewalSheet.length + 1).toString().padStart(4, "0")}`,
-							timestamp: new Date().toISOString(),
-							subscriptionNo: currentRow.subscriptionNo,
-							approvedBy: authState.user?.name,
-							renewalStatus: values.renew,
-						},
-					],
-				});
-				dialogState.open = false;
-				sheetState.updateSubscription();
-				sheetState.updateApproval();
-				toast.success("Successfully renewed subscription");
-			} catch (e) {
-				throw e;
-			}
+			await postSheet({
+				action: "insert",
+				rows: [
+					{
+						sheetName: "RENEWAL",
+						renewalNo: `REN-${(sheetState.renewalSheet.length + 1).toString().padStart(4, "0")}`,
+						timestamp: new Date().toISOString(),
+						subscriptionNo: currentRow.subscriptionNo,
+						approvedBy: authState.user?.name,
+						renewalStatus: values.renew,
+					},
+				],
+			});
+			dialogState.open = false;
+			sheetState.updateSubscription();
+			sheetState.updateApproval();
+			toast.success("Successfully renewed subscription");
 		},
 		onError: (e: any) => {
 			console.log(e);

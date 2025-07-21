@@ -28,7 +28,7 @@
 
 	let pendingData = $derived(
 		sheetState.subscriptionSheet
-			.filter((s) => s.endDate !== "" && new Date(s.endDate) < new Date() && s.actual1 === "")
+			.filter(s => s.planned1 !== "" && s.actual1 === "")
 			.map((s) => ({
 				companyName: s.companyName,
 				endDate: new Date(s.endDate),

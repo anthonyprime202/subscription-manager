@@ -45,52 +45,50 @@
 		createForm<z.infer<typeof schema>>({
 			extend: [validator({ schema })],
 			onSubmit: async (values) => {
-				try {
-					let fileUrl = "";
-					if (values.insuranceDocument) {
-						fileUrl = await uploadFile(
-							values.insuranceDocument,
-							import.meta.env.VITE_ATTACHMENT_FOLDER,
-						);
-					}
-
-					const currentRow = sheetState.subscriptionSheet.find(
-						(s) => s.subscriptionNo === dialogState.selectedRow.subscriptionNo,
-					)!;
-					await postSheet({
-						action: "update",
-						rows: [
-							{
-								...currentRow,
-								actual3: new Date().toISOString(),
-								actual1: "",
-								startDate: new Date(values.startDate).toDateString(),
-								endDate: new Date(values.endDate).toISOString(),
-							},
-						],
-					});
-					await postSheet({
-						action: "insert",
-						rows: [
-							{
-								sheetName: "PAYMENT",
-								timestamp: new Date().toISOString(),
-								subscriptionNo: currentRow.subscriptionNo,
-								paymentMode: values.paymentMethod,
-								transactionId: values.transactionId || `TSI-${(sheetState.paymentSheet.length + 1).toString().padStart(4, "0")}`,
-								startDate: new Date(values.startDate).toISOString(),
-								insuranceDocument: fileUrl,
-							},
-						],
-					});
-
-					dialogState.open = false;
-					sheetState.updateSubscription();
-					sheetState.updatePayment();
-					toast.success("Successfully updated payment");
-				} catch (e) {
-					throw e;
+				let fileUrl = "";
+				if (values.insuranceDocument) {
+					fileUrl = await uploadFile(
+						values.insuranceDocument,
+						import.meta.env.VITE_ATTACHMENT_FOLDER,
+					);
 				}
+
+				const currentRow = sheetState.subscriptionSheet.find(
+					(s) => s.subscriptionNo === dialogState.selectedRow.subscriptionNo,
+				)!;
+				await postSheet({
+					action: "update",
+					rows: [
+						{
+							...currentRow,
+							actual3: new Date().toISOString(),
+							actual1: "",
+							startDate: new Date(values.startDate).toDateString(),
+							endDate: new Date(values.endDate).toISOString(),
+						},
+					],
+				});
+				await postSheet({
+					action: "insert",
+					rows: [
+						{
+							sheetName: "PAYMENT",
+							timestamp: new Date().toISOString(),
+							subscriptionNo: currentRow.subscriptionNo,
+							paymentMode: values.paymentMethod,
+							transactionId:
+								values.transactionId ||
+								`TSI-${(sheetState.paymentSheet.length + 1).toString().padStart(4, "0")}`,
+							startDate: new Date(values.startDate).toISOString(),
+							insuranceDocument: fileUrl,
+						},
+					],
+				});
+
+				dialogState.open = false;
+				sheetState.updateSubscription();
+				sheetState.updatePayment();
+				toast.success("Successfully updated payment");
 			},
 			onError: (e: any) => {
 				console.log(e);
