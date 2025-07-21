@@ -8,4 +8,4 @@
 <TooltipProvider>
 	<Router />
 </TooltipProvider>
-<Toaster richColors closeButton expand />
+<Toaster expand richColors closeButton />

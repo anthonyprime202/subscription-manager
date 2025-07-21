@@ -4,12 +4,13 @@ import Login from "$lib/components/view/Login.svelte";
 import SidebarLayout from "$lib/components/element/SidebarLayout.svelte";
 import NotFound from "$lib/components/element/NotFound.svelte";
 import Loading from "$lib/components/element/Loading.svelte";
-import { CreditCard, Home, MonitorCheck, RotateCcw, TicketPlus, Users } from "@lucide/svelte";
+import { ClipboardList, CreditCard, Home, MonitorCheck, RotateCcw, TicketPlus, Users } from "@lucide/svelte";
 import NewSubscription from "$lib/components/view/NewSubscription.svelte";
 import PendingApproval from "$lib/components/view/PendingApproval/page.svelte";
 import Payments from "$lib/components/view/Payments/page.svelte";
 import Renewals from "$lib/components/view/Renewals/page.svelte";
 import UserManagement from '$lib/components/view/UserManagement/page.svelte';
+import MySubscriptions from "$lib/components/view/MySubscription/page.svelte";
 import type { SubscriptionRow } from "./types/sheets";
 
 export const routes = {
@@ -20,6 +21,15 @@ export const routes = {
 				title: "Dashboard",
 				subtext: "View your Subscription analytics",
 				icon: Home,
+				admin: false,
+			},
+		},
+		"/my-subscriptions": {
+			"/": MySubscriptions,
+			meta: {
+				title: "My Subscriptions",
+				subtext: "Manage and track all your subscription services",
+				icon: ClipboardList,
 				admin: false,
 			},
 		},

@@ -8,10 +8,11 @@
 	const pillVariants = tv({
 		variants: {
 			variant: {
-				primary: "bg-primary/10 text-primary border-primary",
-				success: "bg-success/10 text-success border-success",
-				destructive: "bg-destructrive/10 text-destructive border-destructive",
-				default: "bg-foreground/10 text-foreground border-foreground",
+				primary: "bg-primary/5 text-primary border-primary",
+				success: "bg-success/5 text-success border-success",
+				warning: "bg-yellow-800/10 text-yellow-800 border-yellow-800",
+				destructive: "bg-destructive/5 text-destructive border-destructive",
+				default: "bg-foreground/5 text-foreground border-foreground",
 			},
 		},
 		defaultVariants: {
