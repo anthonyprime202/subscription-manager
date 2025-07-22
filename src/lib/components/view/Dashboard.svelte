@@ -174,6 +174,7 @@
 			<Popover.Root>
 				<Popover.Trigger
 					class={cn(
+						"w-full md:w-auto",
 						buttonVariants({ variant: "outline" }),
 						!dateRange && "text-muted-foreground",
 					)}
