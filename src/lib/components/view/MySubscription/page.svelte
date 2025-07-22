@@ -27,7 +27,7 @@
 			columns={subscriptionColumns}
 			data={subscriptionData}
 			loading={sheetState.subscriptionLoading}
-			class="h-[85dvh] md:h-[80dvh]"
+			class="h-[84dvh] md:h-[79dvh]"
 		/>
 	</div>
 </div>

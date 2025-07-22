@@ -56,7 +56,7 @@
 				columns={userColumns}
 				data={users}
 				loading={sheetState.userLoading}
-				class="h-[85dvh] md:h-[80dvh]"
+				class="h-[84dvh] md:h-[79dvh]"
 			>
 				<Button
 					onclick={() => {
