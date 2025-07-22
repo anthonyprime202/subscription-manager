@@ -8,9 +8,9 @@
 	const pillVariants = tv({
 		variants: {
 			variant: {
-				primary: "bg-primary/5 text-primary border-primary",
-				success: "bg-success/5 text-success border-success",
-				warning: "bg-yellow-800/10 text-yellow-800 border-yellow-800",
+				primary: "bg-purple-500/5 text-purple-500 border-purple-500",
+				success: "bg-green-500/5 text-green-500 border-green-500",
+				warning: "bg-yellow-500/5 text-yellow-500 border-yellow-500",
 				destructive: "bg-destructive/5 text-destructive border-destructive",
 				default: "bg-foreground/5 text-foreground border-foreground",
 			},
@@ -40,7 +40,7 @@
 <div
 	bind:this={ref}
 	class={cn(
-		"text-xs rounded-full px-2 py-1 border text-center",
+		"text-xs rounded-full px-2 py-1 border text-center font-semibold",
 		pillVariants({ variant }),
 		className,
 	)}

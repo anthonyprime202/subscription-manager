@@ -44,7 +44,7 @@ export function getStatus(row: SubscriptionRow): string {
 		row.actual1 !== "" &&
 		row.renewalStatus !== "Renewed"
 	) {
-		return "Expied";
+		return "Expired";
 	}
 	return "";
 }

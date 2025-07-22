@@ -137,7 +137,7 @@
 								{/each}
 							</Table.Row>
 						{:else}
-							<Table.Row class="hover:bg-transparent">
+							<Table.Row class="hover:[&,&>svelte-css-wrapper]:[&>th,td]:bg-transparent">
 								<Table.Cell
 									colspan={columns.length}
 									class="h-[71dvh] text-center text-xl"
