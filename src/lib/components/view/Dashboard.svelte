@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
 	import * as Chart from "$lib/components/ui/chart";
+	import * as Table from "$lib/components/ui/table";
 	import * as Popover from "$lib/components/ui/popover";
 	import { SheetState, useSheets } from "$lib/state/sheets.svelte";
 	import {
@@ -102,6 +103,8 @@
 			})
 			.reduce((acc, curr) => acc + curr, 0),
 	);
+
+	let constlySubscriptions = $derived(filteredSheets.subscriptionSheet.sort((x, y) => parseInt(y.price) - parseInt(x.price)).slice(0, 5));
 
 	const currencyFormatter = Intl.NumberFormat("en-IN", {
 		style: "currency",
@@ -290,20 +293,20 @@
 	</div>
 
 
-	<div class="flex">
-		<Card.Root class="w-full md:max-w-150 h-full">
+	<div class="grid md:flex gap-4">
+		<Card.Root class="w-full md:max-w-150 h-full gap-3">
 			<Card.Header>
 				<Card.Title>Subscription Status</Card.Title>
 			</Card.Header>
 			<Card.Content>
-				<Chart.Container config={chartConfig} class="mx-auto max-h-[300px]">
+				<Chart.Container config={chartConfig} class="mx-auto max-h-[200px]">
 					<PieChart
 						data={chartData}
 						key="status"
 						value="subscriptions"
 						c="color"
 						innerRadius={60}
-						outerRadius={100}
+						outerRadius={85}
 						label={(d) =>
 							d.status
 								.split("")
@@ -319,12 +322,34 @@
 						{#snippet arc({ props, index })}
 							{@const arcProps =
 								index === 1
-									? { ...props, outerRadius: 60, innerRadius: 115 }
+									? { ...props, outerRadius: 60, innerRadius: 95 }
 									: props}
 							<Arc {...arcProps} />
 						{/snippet}
 					</PieChart>
 				</Chart.Container>
+			</Card.Content>
+		</Card.Root>
+
+		<Card.Root class="flex-grow gap-0">
+			<Card.Header><Card.Title>Subscriptions Costs</Card.Title></Card.Header>
+			<Card.Content class="">
+				<Table.Root>
+					<Table.Header>
+						<Table.Row>
+							<Table.Head>Name</Table.Head>
+							<Table.Head class="text-right">Price</Table.Head>
+						</Table.Row>
+					</Table.Header>
+					<Table.Body>
+						{#each constlySubscriptions as sub}
+							<Table.Row>
+								<Table.Cell class="text-primary font-semibold">{sub.subscriptionName}</Table.Cell>
+								<Table.Cell class="text-right">{currencyFormatter(parseInt(sub.price))}</Table.Cell>
+							</Table.Row>
+						{/each}
+					</Table.Body>
+				</Table.Root>
 			</Card.Content>
 		</Card.Root>
 	</div>
