@@ -9,7 +9,7 @@
 	let authState = setAuth();
 
 	$effect(() => {
-		if (!authState.loading && !authState.loggedin) {
+		if (!authState.loading && !authState.loggedin && route.pathname !== "/auth/login") {
 			navigate("/auth/login");
 		}
 		if (
