@@ -11,8 +11,10 @@
 	import { useSheets } from "$lib/state/sheets.svelte";
 	import DataTable from "$lib/components/element/DataTable.svelte";
 	import ProcessForm from "./process-form.svelte";
+	import { useAuth } from "$lib/state/auth.svelte";
 
 	const sheetState = useSheets();
+	const authState = useAuth();
 
 	let open = $state(false);
 	let selectedRow = $state<PendingPaymentsData>();
@@ -35,28 +37,30 @@
 	let pendingData = $derived(
 		sheetState.subscriptionSheet
 			.filter((s) => s.actual3 === "" && s.planned3 !== "")
+.filter(s => authState.user?.role === "admin" || s.subscriberName === authState.user?.username)
 			.map((s) => ({
 				approvedOn: new Date(s.actual2),
 				company: s.companyName,
 				frequency: s.frequency,
 				price: s.price,
-				subscriberName: s.subscriberName,
+				subscriberName: sheetState.userSheet.find(u => u.username === s.subscriberName)?.name || "",
 				subscriptionName: s.subscriptionName,
 				subscriptionNo: s.subscriptionNo,
 			})) satisfies PendingPaymentsData[],
 	);
 
 	let historyData = $derived(
-		sheetState.paymentSheet.map((s) => {
+		sheetState.paymentSheet.filter(s => authState.user?.role === "admin" || sheetState.subscriptionSheet.find(r => r.subscriptionNo === s.subscriptionNo)!.subscriberName === authState.user?.username).map((s) => {
 			const currentSheet = sheetState.subscriptionSheet.find(
 				(su) => s.subscriptionNo === su.subscriptionNo,
 			)!;
+			const subscriber = sheetState.userSheet.find(su => su.username === currentSheet.subscriberName)!.name;
 			return {
 				company: currentSheet.companyName,
 				insuranceDocument: s.insuranceDocument,
 				paymentMode: s.paymentMode,
 				startDate: new Date(s.startDate),
-				subscriber: currentSheet.subscriberName,
+				subscriber,
 				subscriptionNo: s.subscriptionNo,
 				transactionId: s.transactionId,
 				paymentDate: new Date(s.timestamp),

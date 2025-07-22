@@ -13,8 +13,10 @@
 	import { postSheet } from "$lib/api";
 	import { useSheets } from "$lib/state/sheets.svelte";
 	import { toast } from "svelte-sonner";
+	import { useAuth } from "$lib/state/auth.svelte";
 
 	let sheetState = useSheets();
+	let authState = useAuth();
 
 	const schema = z.object({
 		companyName: z.string().nonempty("Please enter company name"),
@@ -30,41 +32,50 @@
 		purpose: z.string().nonempty("Please enter the purpose"),
 	});
 
-	const { form, setTouched, errors, data, isSubmitting } = createForm<
-		z.infer<typeof schema>
-	>({
-		extend: [validator({ schema })],
+	const { form, setFields, setTouched, errors, data, isSubmitting } =
+		createForm<z.infer<typeof schema>>({
+			extend: [validator({ schema })],
+			onSubmit: async ({
+				companyName,
+				frequency,
+				price,
+				purpose,
+				subscriberName: subName,
+				subscriptionName,
+			}) => {
+				let subscriberName = subName;
+				if (authState.user && authState.user?.role !== "admin") {
+					subscriberName = authState.user.username
+				}
 
-		onSubmit: async ({
-			companyName,
-			frequency,
-			price,
-			purpose,
-			subscriberName,
-			subscriptionName,
-		}) => {
-			await postSheet({
-				action: "insert",
-				rows: [
-					{
-						sheetName: "SUBSCRIPTION",
-						timestamp: new Date().toISOString(),
-						subscriptionNo: `SUB-${(sheetState.subscriptionSheet.length + 1).toString().padStart(4, "0")}`,
-						price: price.toString(),
-						companyName,
-						frequency,
-						purpose,
-						subscriberName,
-						subscriptionName,
-					},
-				],
-			});
-			sheetState.updateSubscription();
-			toast.success("Request for new subscription has been submitted");
-		},
-		onError: (e: any) => {
-			toast.error(e.message);
-		},
+				await postSheet({
+					action: "insert",
+					rows: [
+						{
+							sheetName: "SUBSCRIPTION",
+							timestamp: new Date().toISOString(),
+							subscriptionNo: `SUB-${(sheetState.subscriptionSheet.length + 1).toString().padStart(4, "0")}`,
+							price: price.toString(),
+							companyName,
+							frequency,
+							purpose,
+							subscriberName,
+							subscriptionName,
+						},
+					],
+				});
+				sheetState.updateSubscription();
+				toast.success("Request for new subscription has been submitted");
+			},
+			onError: (e: any) => {
+				toast.error(e.message);
+			},
+		});
+
+	$effect(() => {
+		if (authState.user && authState.user?.role !== "admin") {
+			setFields("subscriberName", authState.user.name);
+		}
 	});
 </script>
 
@@ -77,29 +88,73 @@
 			<div class="grid md:grid-cols-3 gap-6">
 				<div class="grid gap-2">
 					<Label for="companyName">Company Name</Label>
-					<Tooltip.Root disabled={!$errors.companyName}>
-						<Tooltip.Trigger>
-							<Input
-								name="companyName"
-								id="companyName"
-								placeholder="Enter company name"
-							/>
-						</Tooltip.Trigger>
-						<Tooltip.Content>{$errors.companyName}</Tooltip.Content>
-					</Tooltip.Root>
+										<Select.Root
+							type="single"
+							bind:value={$data.companyName}
+							name="companyName"
+							onValueChange={() => setTouched("companyName", true)}
+						>
+							<Tooltip.Root disabled={!$errors.companyName}>
+								<Tooltip.Trigger>
+									<Select.Trigger
+										class="w-full"
+										aria-invalid={$errors.companyName ? true : undefined}
+									>
+										{$data.companyName ? $data.companyName : "Select Company"}
+									</Select.Trigger>
+								</Tooltip.Trigger>
+								<Tooltip.Content>
+									{$errors.companyName}
+								</Tooltip.Content>
+							</Tooltip.Root>
+							<Select.Content>
+								{#each sheetState.masterSheet.companyName as company} 
+									<Select.Item value={company}>{company}</Select.Item>
+								{/each}
+							</Select.Content>
+						</Select.Root>
 				</div>
 				<div class="grid gap-2">
 					<Label for="subscriberName">Subscriber Name</Label>
-					<Tooltip.Root disabled={!$errors.subscriberName}>
-						<Tooltip.Trigger>
-							<Input
-								name="subscriberName"
-								id="subscriberName"
-								placeholder="Enter subscriber name"
-							/>
-						</Tooltip.Trigger>
-						<Tooltip.Content>{$errors.subscriberName}</Tooltip.Content>
-					</Tooltip.Root>
+					{#if authState.user?.role === "admin"}
+						<Select.Root
+							type="single"
+							bind:value={$data.subscriberName}
+							name="subscriberName"
+							onValueChange={() => setTouched("subscriberName", true)}
+						>
+							<Tooltip.Root disabled={!$errors.subscriberName}>
+								<Tooltip.Trigger>
+									<Select.Trigger
+										class="w-full"
+										aria-invalid={$errors.subscriberName ? true : undefined}
+									>
+										{$data.subscriberName ? sheetState.userSheet.find(s => s.username === $data.subscriberName)?.name : "Select Subscriber"}
+									</Select.Trigger>
+								</Tooltip.Trigger>
+								<Tooltip.Content>
+									{$errors.subscriberName}
+								</Tooltip.Content>
+							</Tooltip.Root>
+							<Select.Content>
+								{#each sheetState.userSheet as { username, name }}
+									<Select.Item value={username}>{name}</Select.Item>
+								{/each}
+							</Select.Content>
+						</Select.Root>
+					{:else}
+						<Tooltip.Root disabled={!$errors.subscriberName}>
+							<Tooltip.Trigger>
+								<Input
+									name="subscriberName"
+									id="subscriberName"
+									placeholder="Enter subscriber name"
+									readonly
+								/>
+							</Tooltip.Trigger>
+							<Tooltip.Content>{$errors.subscriberName}</Tooltip.Content>
+						</Tooltip.Root>
+					{/if}
 				</div>
 				<div class="grid gap-2">
 					<Label for="subscriptionName">Subscription Name</Label>

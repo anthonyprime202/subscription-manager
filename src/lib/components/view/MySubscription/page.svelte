@@ -1,27 +1,24 @@
 <script lang="ts">
-	import { Root as DialogRoot } from "$lib/components/ui/dialog";
 	import DataTable from "$lib/components/element/DataTable.svelte";
 	import { useSheets } from "$lib/state/sheets.svelte";
 	import { subscriptionColumns, type SubscriptionData } from "./columns";
-	import type { SubscriptionRow } from "$lib/types/sheets";
 	import { getStatus } from "$lib/utils/parsers";
+	import { useAuth } from "$lib/state/auth.svelte";
 
 	const sheetState = useSheets();
+	const authState = useAuth();
 
 	let subscriptionData = $derived(
-		sheetState.subscriptionSheet.map((s) => ({
+		sheetState.subscriptionSheet.filter(s => authState.user?.role === "admin" || s.subscriberName === authState.user?.username).map((s) => ({
 			companyName: s.companyName,
 			endDate: new Date(s.endDate),
 			price: s.price,
-			subscriberName: s.subscriberName,
+			subscriberName: sheetState.userSheet.find(u => u.username === s.subscriberName)?.name || "",
 			subscriptionName: s.subscriptionName,
 			subscriptionNo: s.subscriptionNo,
 			status: getStatus(s),
 		})) satisfies SubscriptionData[],
 	);
-	$effect(() => {
-		console.log(subscriptionData);
-	});
 </script>
 
 <div class="md:p-5 md:pt-0">

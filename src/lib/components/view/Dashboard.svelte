@@ -115,10 +115,7 @@
 	}).format;
 
 	let statuses = $derived(filteredSheets.subscriptionSheet.map(getStatus));
-	$effect(() => {
-		console.log(statuses);
-	});
-
+	
 	const chartData = $derived([
 		{
 			status: "created",

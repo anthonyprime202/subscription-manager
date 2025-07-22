@@ -11,8 +11,10 @@
 		type RenewalHistoryData,
 	} from "./columns";
 	import RenewalForm from "./renewal-form.svelte";
+	import { useAuth } from "$lib/state/auth.svelte";
 
 	const sheetState = useSheets();
+	const authState = useAuth();
 	let open = $state(false);
 	let selectedRow = $state<PendingRenewalData>();
 
@@ -34,34 +36,52 @@
 	let pendingData = $derived(
 		sheetState.subscriptionSheet
 			.filter((s) => s.planned1 !== "" && s.actual1 === "")
+			.filter(
+				(s) =>
+					authState.user?.role === "admin" ||
+					s.subscriberName === authState.user?.username,
+			)
 			.map((s) => ({
 				companyName: s.companyName,
 				endDate: new Date(s.endDate),
 				price: s.price,
 				frequency: s.frequency,
-				subscriberName: s.subscriberName,
+				subscriberName:
+					sheetState.userSheet.find((u) => u.username === s.subscriberName)
+						?.name || "",
 				subscriptionName: s.subscriptionName,
 				subscriptionNo: s.subscriptionNo,
 			})) satisfies PendingRenewalData[],
 	);
 
 	let historyData = $derived(
-		sheetState.renewalSheet.map((s) => {
-			const currentRow = sheetState.subscriptionSheet.find(
-				(sh) => s.subscriptionNo === sh.subscriptionNo,
-			)!;
-			return {
-				companyName: currentRow.companyName,
-				frequency: currentRow.frequency,
-				price: currentRow.price,
-				renewalDate: new Date(s.timestamp),
-				renewalNo: s.renewalNo,
-				renewalStatus: s.renewalStatus,
-				subscriberName: currentRow.subscriberName,
-				subscriptionName: currentRow.subscriptionName,
-				subscriptionNo: currentRow.subscriptionNo,
-			};
-		}) satisfies RenewalHistoryData[],
+		sheetState.renewalSheet
+			.filter(
+				(s) =>
+					authState.user?.role === "admin" ||
+					sheetState.subscriptionSheet.find(
+						(r) => r.subscriptionNo === s.subscriptionNo,
+					)!.subscriberName === authState.user?.username,
+			)
+			.map((s) => {
+				const currentRow = sheetState.subscriptionSheet.find(
+					(sh) => s.subscriptionNo === sh.subscriptionNo,
+				)!;
+				const subscriber = sheetState.userSheet.find(
+					(su) => su.username === currentRow.subscriberName,
+				)!.name;
+				return {
+					companyName: currentRow.companyName,
+					frequency: currentRow.frequency,
+					price: currentRow.price,
+					renewalDate: new Date(s.timestamp),
+					renewalNo: s.renewalNo,
+					renewalStatus: s.renewalStatus,
+					subscriberName: subscriber,
+					subscriptionName: currentRow.subscriptionName,
+					subscriptionNo: currentRow.subscriptionNo,
+				};
+			}) satisfies RenewalHistoryData[],
 	);
 </script>
 

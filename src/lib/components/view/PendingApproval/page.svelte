@@ -37,7 +37,7 @@
 			.map((sheet) => ({
 				subscriptionNo: sheet.subscriptionNo,
 				companyName: sheet.companyName,
-				subscriberName: sheet.subscriberName,
+				subscriberName: sheetState.userSheet.find(u => u.username === sheet.subscriberName)?.name || "",
 				subscriptionName: sheet.subscriptionName,
 				price: sheet.price,
 				frequency: sheet.frequency,
@@ -54,11 +54,13 @@
 			const subscription = sheetState.subscriptionSheet.find(
 				(sh) => s.subscriptionNo === sh.subscriptionNo,
 			)!;
+
+			const subscriber = sheetState.userSheet.find(su => su.username === subscription.subscriberName)!.name;
 			return {
 				approvalNo: s.approvalNo,
 				subscriptionNo: s.subscriptionNo,
 				subscriberName: subscription.subscriberName,
-				subscriptionName: subscription.subscriptionName,
+				subscriptionName: subscriber,
 				approvalStatus: s.approvalStatus,
 				companyName: subscription.companyName,
 				frequency: subscription.frequency,
