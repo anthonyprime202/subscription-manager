@@ -94,7 +94,7 @@
 	<div class="relative max-w-full overflow-x-auto">
 		<ScrollArea
 			orientation="both"
-			class={cn("rounded-sm border h-[70dvh] md:h-[75dvh]", className)}
+			class={cn("rounded-sm border h-[80dvh] md:h-[75dvh]", className)}
 		>
 			<Table.Root>
 				<Table.Header class="bg-muted sticky top-0 z-10">
