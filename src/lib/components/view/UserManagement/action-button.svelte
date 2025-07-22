@@ -17,7 +17,7 @@
 				onclick={() => {
 					dialogState.selectedRow = currentRow;
 					dialogState.open = true;
-          dialogState.typeForm = "Edit"
+					dialogState.typeForm = "Edit";
 				}}><Pencil size={15} color="var(--foreground)" />Edit</Dropdown.Item
 			>
 			<Dropdown.Item class="flex gap-2 text-destructive" onclick={() => {}}

@@ -29,6 +29,7 @@ export const renewalHeaders = [
 	"subscriptionNo",
 	"approvedBy",
 	"renewalStatus",
+	"price"
 ] as const;
 
 export const approvalHeaders = [

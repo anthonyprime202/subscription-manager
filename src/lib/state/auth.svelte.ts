@@ -20,9 +20,9 @@ class AuthState {
 					{
 						...this.user,
 						lastLogin: new Date().toISOString(),
-					}
-				]
-			})
+					},
+				],
+			});
 			localStorage.setItem("auth", this.user.username);
 			this.loggedin = true;
 			return true;

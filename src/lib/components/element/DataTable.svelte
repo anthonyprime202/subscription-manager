@@ -22,8 +22,8 @@
 		columns: ColumnDef<TData, TValue>[];
 		data: TData[];
 		loading: boolean;
-		children?: Snippet,
-		class?: string,
+		children?: Snippet;
+		class?: string;
 	};
 
 	let {
@@ -31,7 +31,7 @@
 		columns,
 		loading = $bindable(),
 		children,
-		class: className
+		class: className,
 	}: DataTableProps<TData, TValue> = $props();
 	let sorting = $state<SortingState>([]);
 	let columnFilters = $state<ColumnFiltersState>([]);
@@ -87,12 +87,15 @@
 
 <div class="grid gap-2 w-full">
 	<div class="flex gap-2">
-	<Input bind:value={searchValue} placeholder="Search..." />
-	{@render children?.()}
+		<Input bind:value={searchValue} placeholder="Search..." />
+		{@render children?.()}
 	</div>
 
 	<div class="relative max-w-full overflow-x-auto">
-		<ScrollArea orientation="both" class={cn("rounded-sm border h-[70dvh] md:h-[75dvh]", className)}>
+		<ScrollArea
+			orientation="both"
+			class={cn("rounded-sm border h-[70dvh] md:h-[75dvh]", className)}
+		>
 			<Table.Root>
 				<Table.Header class="bg-muted sticky top-0 z-10">
 					{#each table.getHeaderGroups() as headerGroup (headerGroup.id)}

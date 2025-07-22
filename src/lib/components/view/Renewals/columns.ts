@@ -167,7 +167,7 @@ export const renewalHistoryColumns: ColumnDef<RenewalHistoryData>[] = [
 		accessorKey: "frequency",
 		header: "Frequency",
 	},
-		{
+	{
 		accessorKey: "renewalStatus",
 		header: () => {
 			const headerSnippet = createRawSnippet(() => ({
@@ -184,9 +184,7 @@ export const renewalHistoryColumns: ColumnDef<RenewalHistoryData>[] = [
 			return renderComponent(Pill, {
 				children: textSnippet,
 				variant:
-					row.original.renewalStatus === "Renewed"
-						? "success"
-						: "destructive",
+					row.original.renewalStatus === "Renewed" ? "success" : "destructive",
 			});
 		},
 	},

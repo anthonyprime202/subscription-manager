@@ -6,12 +6,12 @@
 </script>
 
 <div class="flex gap-2 items-center">
-  <Avatar.Root class="border border-foreground">
-    <Avatar.Fallback>{getInitials(name)}</Avatar.Fallback>
-  </Avatar.Root>
+	<Avatar.Root class="border border-foreground">
+		<Avatar.Fallback>{getInitials(name)}</Avatar.Fallback>
+	</Avatar.Root>
 
-  <div class="grid gap">
-    <p class="text-sm">{name}</p>
-    <p class="text-xs text-muted-foreground">{email}</p>
-  </div>
+	<div class="grid gap">
+		<p class="text-sm">{name}</p>
+		<p class="text-xs text-muted-foreground">{email}</p>
+	</div>
 </div>

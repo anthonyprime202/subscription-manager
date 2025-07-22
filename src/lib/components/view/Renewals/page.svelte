@@ -4,8 +4,13 @@
 	import DataTable from "$lib/components/element/DataTable.svelte";
 	import { setContext } from "svelte";
 	import { useSheets } from "$lib/state/sheets.svelte";
-	import { pendingRenewalColumns, renewalHistoryColumns, type PendingRenewalData, type RenewalHistoryData } from "./columns";
-  import RenewalForm from "./renewal-form.svelte";
+	import {
+		pendingRenewalColumns,
+		renewalHistoryColumns,
+		type PendingRenewalData,
+		type RenewalHistoryData,
+	} from "./columns";
+	import RenewalForm from "./renewal-form.svelte";
 
 	const sheetState = useSheets();
 	let open = $state(false);
@@ -28,12 +33,12 @@
 
 	let pendingData = $derived(
 		sheetState.subscriptionSheet
-			.filter(s => s.planned1 !== "" && s.actual1 === "")
+			.filter((s) => s.planned1 !== "" && s.actual1 === "")
 			.map((s) => ({
 				companyName: s.companyName,
 				endDate: new Date(s.endDate),
 				price: s.price,
-        frequency: s.frequency,
+				frequency: s.frequency,
 				subscriberName: s.subscriberName,
 				subscriptionName: s.subscriptionName,
 				subscriptionNo: s.subscriptionNo,
@@ -41,8 +46,10 @@
 	);
 
 	let historyData = $derived(
-		sheetState.renewalSheet.map(s => {
-			const currentRow = sheetState.subscriptionSheet.find(sh => s.subscriptionNo === sh.subscriptionNo)!;
+		sheetState.renewalSheet.map((s) => {
+			const currentRow = sheetState.subscriptionSheet.find(
+				(sh) => s.subscriptionNo === sh.subscriptionNo,
+			)!;
 			return {
 				companyName: currentRow.companyName,
 				frequency: currentRow.frequency,
@@ -53,9 +60,9 @@
 				subscriberName: currentRow.subscriberName,
 				subscriptionName: currentRow.subscriptionName,
 				subscriptionNo: currentRow.subscriptionNo,
-			}
-		}) satisfies RenewalHistoryData[]
-	)
+			};
+		}) satisfies RenewalHistoryData[],
+	);
 </script>
 
 <Tabs.Root value="pending">
@@ -69,12 +76,20 @@
 		<div class="bg-background p-5 rounded-md shadow-md">
 			<Tabs.Content value="pending">
 				<DialogRoot bind:open>
-					<DataTable columns={pendingRenewalColumns} data={pendingData} loading={sheetState.subscriptionLoading}/>
-        <RenewalForm />
+					<DataTable
+						columns={pendingRenewalColumns}
+						data={pendingData}
+						loading={sheetState.subscriptionLoading}
+					/>
+					<RenewalForm />
 				</DialogRoot>
 			</Tabs.Content>
 			<Tabs.Content value="history">
-				<DataTable columns={renewalHistoryColumns} data={historyData} loading={sheetState.renewalLoading} />
+				<DataTable
+					columns={renewalHistoryColumns}
+					data={historyData}
+					loading={sheetState.renewalLoading}
+				/>
 			</Tabs.Content>
 		</div>
 	</div>

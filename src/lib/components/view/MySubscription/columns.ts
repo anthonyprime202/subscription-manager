@@ -101,16 +101,19 @@ export const subscriptionColumns: ColumnDef<SubscriptionData>[] = [
 				render: () => `<div>${row.original.status}</div>`,
 			}));
 
-      const statusVariants: Record<string, "primary" | "warning" | "success" | "destructive"> = {
-        "Created": "primary",
-        "Renewal": "primary",
-        "Approved": "warning",
-        "Active": "success",
-        "Rejected": "destructive",
-        "Ended": "destructive",
-        "Expired": "destructive",
-      }
-      
+			const statusVariants: Record<
+				string,
+				"primary" | "warning" | "success" | "destructive"
+			> = {
+				Created: "primary",
+				Renewal: "primary",
+				Approved: "warning",
+				Active: "success",
+				Rejected: "destructive",
+				Ended: "destructive",
+				Expired: "destructive",
+			};
+
 			return renderComponent(Pill, {
 				children: textSnippet,
 				variant: statusVariants[row.original.status],

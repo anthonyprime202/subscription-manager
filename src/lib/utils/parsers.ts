@@ -1,3 +1,5 @@
+import type { SubscriptionRow } from "$lib/types/sheets";
+
 export function toCamelCase(str: string) {
 	if (typeof str !== "string" || str.trim() === "") {
 		return "";
@@ -16,14 +18,44 @@ export function toCamelCase(str: string) {
 		.join("");
 }
 
-export function getInitials(name: string) {
-  return name
-    .split(" ")
-    .filter(word => word.length > 0)
-    .map(word => word[0].toUpperCase())
-    .join("");
+export function getStatus(row: SubscriptionRow): string {
+	if (
+		row.renewalStatus !== "Renewed" &&
+		row.planned2 !== "" &&
+		row.actual2 === ""
+	) {
+		return "Created";
+	} else if (
+		row.renewalStatus === "Renewed" &&
+		row.planned2 !== "" &&
+		row.actual2 === ""
+	) {
+		return "Renewal";
+	} else if (row.planned3 === "" && row.actual2 !== "") {
+		return "Rejected";
+	} else if (row.planned3 !== "" && row.actual3 === "") {
+		return "Approved";
+	} else if (row.endDate !== "" && new Date(row.endDate) > new Date()) {
+		return "Active";
+	} else if (row.planned1 !== "" && row.actual1 === "") {
+		return "Ended";
+	} else if (
+		row.planned1 !== "" &&
+		row.actual1 !== "" &&
+		row.renewalStatus !== "Renewed"
+	) {
+		return "Expied";
+	}
+	return "";
 }
 
+export function getInitials(name: string) {
+	return name
+		.split(" ")
+		.filter((word) => word.length > 0)
+		.map((word) => word[0].toUpperCase())
+		.join("");
+}
 
 export function calculateEndDate(
 	startDateString: string,

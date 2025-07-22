@@ -12,7 +12,7 @@
 	const sheetState = useSheets();
 	let open = $state(false);
 	let selectedRow = $state<UserData>();
-  let typeForm = $state<"Edit" | "Create">("Create");
+	let typeForm = $state<"Edit" | "Create">("Create");
 
 	setContext(Symbol.for("dialog-state"), {
 		get open() {
@@ -44,7 +44,7 @@
 				name: s.name,
 			},
 			username: s.username,
-      password: s.password,
+			password: s.password,
 		})) satisfies UserData[],
 	);
 </script>
@@ -56,15 +56,17 @@
 				columns={userColumns}
 				data={users}
 				loading={sheetState.userLoading}
-        class="h-[85dvh] md:h-[80dvh]"
+				class="h-[85dvh] md:h-[80dvh]"
 			>
-      <Button onclick={() => {
-        selectedRow = undefined
-        typeForm = "Create"
-        open = true
-      }}><UserPlus />Create User</Button>
-    </DataTable>
-    <UserForm />
+				<Button
+					onclick={() => {
+						selectedRow = undefined;
+						typeForm = "Create";
+						open = true;
+					}}><UserPlus />Create User</Button
+				>
+			</DataTable>
+			<UserForm />
 		</DialogRoot>
 	</div>
 </div>

@@ -41,7 +41,10 @@
 				subscriptionName: sheet.subscriptionName,
 				price: sheet.price,
 				frequency: sheet.frequency,
-				requestedOn: sheet.actual1 === "" ? new Date(sheet.timestamp) : new Date(sheet.actual1),
+				requestedOn:
+					sheet.actual1 === ""
+						? new Date(sheet.timestamp)
+						: new Date(sheet.actual1),
 				purpose: sheet.purpose,
 			})) satisfies PendingApprovalData[],
 	);

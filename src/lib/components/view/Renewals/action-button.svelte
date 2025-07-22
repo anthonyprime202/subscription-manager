@@ -3,9 +3,7 @@
 	import { getContext } from "svelte";
 	import type { PendingRenewalData } from "./columns";
 
-	let {
-		currentRow,
-	}: { currentRow: PendingRenewalData } = $props();
+	let { currentRow }: { currentRow: PendingRenewalData } = $props();
 	const dialogState: any = getContext(Symbol.for("dialog-state"));
 </script>
 

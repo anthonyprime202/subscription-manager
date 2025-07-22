@@ -10,7 +10,7 @@ import type {
 import { getContext, setContext } from "svelte";
 import { toast } from "svelte-sonner";
 
-class SheetState {
+export class SheetState {
 	subscriptionSheet = $state<SubscriptionRow[]>([]);
 	renewalSheet = $state<RenewalRow[]>([]);
 	approvalSheet = $state<ApprovalRow[]>([]);

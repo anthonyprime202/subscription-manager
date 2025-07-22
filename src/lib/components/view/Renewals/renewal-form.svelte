@@ -60,6 +60,7 @@
 						subscriptionNo: currentRow.subscriptionNo,
 						approvedBy: authState.user?.name,
 						renewalStatus: values.renew,
+						price: currentRow.price
 					},
 				],
 			});

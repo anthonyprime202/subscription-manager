@@ -12,20 +12,20 @@ export type UserData = {
 	};
 	username: string;
 	role: string;
-  password: string;
+	password: string;
 	lastLogin: Date;
 };
 
 export const userColumns: ColumnDef<UserData>[] = [
-  {
-    accessorKey: "action",
-    header: "",
-    cell: ({ row }) => {
-      return renderComponent(ActionButton, {
-        currentRow: row.original,
-      })
-    }
-  },
+	{
+		accessorKey: "action",
+		header: "",
+		cell: ({ row }) => {
+			return renderComponent(ActionButton, {
+				currentRow: row.original,
+			});
+		},
+	},
 	{
 		accessorKey: "user",
 		header: "User",
@@ -52,15 +52,15 @@ export const userColumns: ColumnDef<UserData>[] = [
 		cell: ({ row }) => {
 			const formatter = Intl.DateTimeFormat("en-IN", {
 				dateStyle: "medium",
-        timeStyle: "medium"
+				timeStyle: "medium",
 			});
-      const value = row.getValue("lastLogin") as Date
+			const value = row.getValue("lastLogin") as Date;
 			const cellSnippet = createRawSnippet((getDate: () => string) => ({
 				render: () => `<p>${getDate()}</p>`,
 			}));
 			return renderSnippet(
 				cellSnippet,
-        isNaN(value.getTime()) ? "No login yet" : formatter.format(value)   
+				isNaN(value.getTime()) ? "No login yet" : formatter.format(value),
 			);
 		},
 	},
