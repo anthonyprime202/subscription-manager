@@ -56,7 +56,7 @@ export const routes = {
 				title: "Renewals",
 				subtext: "Renew subscriptions that have passed end date",
 				icon: RotateCcw,
-				admin: true,
+				admin: false,
 				notifications: (sheets: SubscriptionRow[]) =>
 					sheets.filter((s) => s.planned1 !== "" && s.actual1 === "").length,
 			},
